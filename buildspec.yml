@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
-      - cd lambda
+      - cd lambda-sample
       - npm install
 
   build:
