@@ -14,7 +14,7 @@ phases:
 
   post_build:
     commands:
-      - aws lambda update-function-code --function-name lambda-sample --zip-file fileb://function.zip
+      - aws lambda update-function-code --function-name lambda-sample --zip-file fileb://../function.zip
 
 artifacts:
   files:
