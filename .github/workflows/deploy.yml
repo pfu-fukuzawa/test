@@ -25,6 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          ls
           cd lambda
           npm install
       - name: Build (if needed)
