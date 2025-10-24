@@ -27,8 +27,6 @@ jobs:
         run: |
           cd lambda-sample/lambda
           npm install
-      - name: Build (if needed)
-        run: npm run build # 必要に応じて
       - name: Deploy to AWS Lambda
         uses: aws-actions/aws-lambda-deploy@v1
         with:
