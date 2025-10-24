@@ -24,13 +24,13 @@ jobs:
           aws-region: ${{ secrets.AWS_LAMBDA_REGION }}
 
       - name: Install dependencies
-        run: npm install
-      - name: Build (if needed)
-        run: npm run build # 必要に応じて
+        run: |
+          cd lambda-sample/lambda
+          npm install
       - name: Deploy to AWS Lambda
         uses: aws-actions/aws-lambda-deploy@v1
         with:
           function-name: lambda-sample
-          code-artifacts-dir: .
+          code-artifacts-dir: lambda-sample/lambda
           handler: index.handler
           runtime: nodejs22.x
