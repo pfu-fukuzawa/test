@@ -1,4 +1,4 @@
-name: Deploy AWS Lambda
+name: Deploy to AWS Lambda
 
 on:
   push:
@@ -6,26 +6,29 @@ on:
       - main
 
 permissions:
-  id-token: write       # OIDC 認証に必要
-  contents: read        # リポジトリのチェックアウトに必要
-
+  id-token: write
+  contents: read
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout source
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_LAMBDA_DEPLOY_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_LAMBDA_REGION }}
 
-      - name: Deploy Lambda Function
-        uses: aws-actions/aws-lambda-deploy@v1.1.0
+      - name: Zip Lambda function code
+        run: |
+          zip -r function.zip .
+
+      - name: Deploy to AWS Lambda
+        uses: aws-actions/aws-lambda-deploy@v1
         with:
           function-name: lambda-sample
-          code-artifacts-dir: ./dist
-          handler: index.handler
-          runtime: nodejs22.x
+          zip-file: function.zip
+``
