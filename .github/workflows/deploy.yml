@@ -8,6 +8,7 @@ on:
 permissions:
   id-token: write
   contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,12 +23,14 @@ jobs:
           role-to-assume: ${{ secrets.AWS_LAMBDA_DEPLOY_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_LAMBDA_REGION }}
 
-      - name: Zip Lambda function code
-        run: |
-          zip -r function.zip .
-
+      - name: Install dependencies
+        run: npm install
+      - name: Build (if needed)
+        run: npm run build # 必要に応じて
       - name: Deploy to AWS Lambda
         uses: aws-actions/aws-lambda-deploy@v1
         with:
           function-name: lambda-sample
-          zip-file: function.zip
+          code-artifacts-dir: .
+          handler: index.handler
+          runtime: nodejs22.x
