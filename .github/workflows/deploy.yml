@@ -31,4 +31,3 @@ jobs:
         with:
           function-name: lambda-sample
           zip-file: function.zip
-``
